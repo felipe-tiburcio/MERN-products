@@ -22,4 +22,10 @@ export const useProductStore = create((set) => ({
       return { success: false, message: error.message };
     }
   },
+
+  fetchProducts: async () => {
+    const { data } = await axios.get("/api/products");
+
+    set({ products: data.data });
+  },
 }));
