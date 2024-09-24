@@ -3,9 +3,15 @@ import Product from "../models/product.model.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const product = await Product.find();
+    const products = await Product.find();
 
-    res.status(200).json({ success: true, data: product });
+    if (!products) {
+      res.status(404).json({ success: false, message: "Products not found" });
+    } else {
+      res
+        .status(200)
+        .json({ success: true, count: products.length, data: products });
+    }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -91,16 +97,22 @@ export const deleteProduct = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Product not found" });
+      return res.status(404).json({ success: false, message: "Invalid Id" });
     }
 
-    await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(id);
 
-    res
-      .status(204)
-      .json({ success: true, message: "Product removed successfully" });
+    if (!deletedProduct) {
+      res.status(404).json({ success: false, message: "Product not found" });
+    } else {
+      res
+        .status(200)
+        .json({
+          success: true,
+          data: deletedProduct,
+          message: "Product removed successfully",
+        });
+    }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
