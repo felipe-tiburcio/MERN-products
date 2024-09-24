@@ -28,4 +28,24 @@ export const useProductStore = create((set) => ({
 
     set({ products: data.data });
   },
+  deleteProduct: async (id) => {
+    try {
+      const { data } = await axios.delete(`/api/products/${id}`);
+
+      if (!data.success) {
+        return {
+          success: false,
+          message: res.message,
+        };
+      }
+
+      set((state) => ({
+        products: state.products.filter((product) => product._id !== id),
+      }));
+
+      return { success: true, message: data.message };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
 }));

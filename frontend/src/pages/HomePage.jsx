@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard";
 
 const HomePage = () => {
   const { fetchProducts, products } = useProductStore();
+
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
@@ -22,6 +23,20 @@ const HomePage = () => {
         >
           Products
         </Text>
+
+        <SimpleGrid
+          columns={{
+            base: 1,
+            md: 2,
+            lg: 3,
+          }}
+          spacing={10}
+          w={"full"}
+        >
+          {products.map((product, index) => (
+            <ProductCard key={index} product={product} />
+          ))}
+        </SimpleGrid>
 
         {products.length === 0 && (
           <Text
@@ -42,20 +57,6 @@ const HomePage = () => {
             </Link>
           </Text>
         )}
-
-        <SimpleGrid
-          columns={{
-            base: 1,
-            md: 2,
-            lg: 3,
-          }}
-          spacing={10}
-          w={"full"}
-        >
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </SimpleGrid>
       </VStack>
     </Container>
   );

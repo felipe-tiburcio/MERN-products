@@ -6,13 +6,43 @@ import {
   Image,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import React from "react";
+import { useProductStore } from "../store/product";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bgColor = useColorModeValue("white", "gray.800");
+  const { deleteProduct } = useProductStore();
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  const handleDeleteProduct = async (id) => {
+    const { success, message } = await deleteProduct(id);
+
+    if (!success) {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: message,
+        status: "success",
+        duration: 1500,
+        isClosable: true,
+      });
+    }
+
+    navigate("/");
+  };
 
   return (
     <Box
@@ -40,7 +70,11 @@ const ProductCard = ({ product }) => {
         </Text>
         <HStack spacing={2}>
           <IconButton icon={<EditIcon />} colorScheme="blue" />
-          <IconButton icon={<DeleteIcon />} colorScheme="red" />
+          <IconButton
+            icon={<DeleteIcon />}
+            onClick={() => handleDeleteProduct(product._id)}
+            colorScheme="red"
+          />
         </HStack>
       </Box>
     </Box>
