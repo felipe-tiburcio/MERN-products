@@ -48,4 +48,26 @@ export const useProductStore = create((set) => ({
       return { success: false, message: error.message };
     }
   },
+  updateProduct: async (id, updatedProduct) => {
+    try {
+      const { data } = await axios.put(`/api/products/${id}`, updatedProduct);
+
+      if (!data.success) {
+        return {
+          success: false,
+          message: data.message,
+        };
+      }
+
+      set((state) => ({
+        products: state.products.map((product) =>
+          product._id === id ? data.data : product
+        ),
+      }));
+
+      return { success: true, message: data.message };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
 }));

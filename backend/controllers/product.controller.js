@@ -86,7 +86,7 @@ export const updateProduct = async (req, res) => {
     const updatedProduct = await Product.findByIdAndUpdate(id, newProduct, {
       new: true,
     });
-    res.status(204).json({ success: true, data: updatedProduct });
+    res.status(200).json({ success: true, data: updatedProduct });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -105,13 +105,11 @@ export const deleteProduct = async (req, res) => {
     if (!deletedProduct) {
       res.status(404).json({ success: false, message: "Product not found" });
     } else {
-      res
-        .status(200)
-        .json({
-          success: true,
-          data: deletedProduct,
-          message: "Product removed successfully",
-        });
+      res.status(200).json({
+        success: true,
+        data: deletedProduct,
+        message: "Product removed successfully",
+      });
     }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
