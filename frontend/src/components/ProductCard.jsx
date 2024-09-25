@@ -60,12 +60,14 @@ const ProductCard = ({ product }) => {
   const handleUpdateProduct = async (id, product) => {
     const { success, message } = await updateProduct(id, product);
 
+    onClose();
+
     if (!success) {
       toast({
         title: "Error",
         description: message,
         status: "error",
-        duration: 1500,
+        duration: 2000,
         isClosable: true,
       });
     } else {
@@ -73,18 +75,16 @@ const ProductCard = ({ product }) => {
         title: "Success",
         description: message,
         status: "success",
-        duration: 1500,
+        duration: 2000,
         isClosable: true,
       });
     }
-
-    onClose();
   };
 
   const formatPrice = (price) =>
-    price.toLocaleString("en-US", {
+    price.toLocaleString("pt-PT", {
       style: "currency",
-      currency: "USD",
+      currency: "EUR",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
