@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
         title: "Error",
         description: message,
         status: "error",
-        duration: 1500,
+        duration: 2000,
         isClosable: true,
       });
     } else {
@@ -49,12 +49,10 @@ const ProductCard = ({ product }) => {
         title: "Success",
         description: message,
         status: "success",
-        duration: 1500,
+        duration: 2000,
         isClosable: true,
       });
     }
-
-    navigate("/");
   };
 
   const handleUpdateProduct = async (id, product) => {
@@ -79,15 +77,9 @@ const ProductCard = ({ product }) => {
         isClosable: true,
       });
     }
-  };
 
-  const formatPrice = (price) =>
-    price.toLocaleString("pt-PT", {
-      style: "currency",
-      currency: "EUR",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+    navigate("../");
+  };
 
   return (
     <Box
@@ -111,7 +103,7 @@ const ProductCard = ({ product }) => {
           {product.name}
         </Heading>
         <Text fontWeight={"bold"} fontSize={"xl"} color={textColor} mb={4}>
-          {formatPrice(product.price)}
+          {product.price} €
         </Text>
         <HStack spacing={2}>
           <IconButton icon={<EditIcon onClick={onOpen} />} colorScheme="blue" />

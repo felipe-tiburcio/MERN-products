@@ -44,9 +44,9 @@ const CreatePage = () => {
         duration: 2000,
         isClosable: true,
       });
-
-      setTimeout(() => navigate("/"), 2000);
     }
+
+    setTimeout(() => navigate("/"), 2000);
   };
 
   return (
